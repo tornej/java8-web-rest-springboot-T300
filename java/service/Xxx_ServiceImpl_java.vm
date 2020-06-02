@@ -64,9 +64,9 @@ public class $serviceClass implements $serviceInterface {
 #if($compositeKey)
 		// Build the composite key
 		$entityKeyClass key = new $entityKeyClass($keyArgsList);
-		return ${repositoryInstance}.findOne(key);
+		return ${repositoryInstance}.findById(key);
 #else
-		return ${repositoryInstance}.findOne($keyArgsList);
+		return ${repositoryInstance}.findById($keyArgsList);
 #end
 	}
 
@@ -75,13 +75,13 @@ public class $serviceClass implements $serviceInterface {
 #if($compositeKey)
 		// Build the composite key
 		$entityKeyClass key = new $entityKeyClass($keyArgsList);
-		if (${repositoryInstance}.findOne(key) != null) {
-			${repositoryInstance}.delete(key);
+		if (${repositoryInstance}.findById(key) != null) {
+			${repositoryInstance}.deleteById(key);
 			return true;
 		}
 #else
-		if (${repositoryInstance}.findOne($keyArgsList) != null) {
-			${repositoryInstance}.delete($keyArgsList);
+		if (${repositoryInstance}.findById($keyArgsList) != null) {
+			${repositoryInstance}.deleteById($keyArgsList);
 			return true;
 		}
 #end
@@ -103,7 +103,7 @@ public class $serviceClass implements $serviceInterface {
 #keyResolver()
 		final $keyType pk = $keyArgsListGetterOnInstance;
 #end
-		if (${repositoryInstance}.findOne(pk) != null) {
+		if (${repositoryInstance}.findById(pk) != null) {
 			${repositoryInstance}.save($entityInstance);
 			return true;
 		}
@@ -112,12 +112,14 @@ public class $serviceClass implements $serviceInterface {
 
 	@Override
 	public Boolean exist($entityClass $entityInstance) {
+        if ($keyArgsListGetterOnInstance == null)
+            return false;
 #if($compositeKey)
 		// Build the composite key
 		$entityKeyClass pk = new $entityKeyClass($keyArgsListGetterOnInstance);
-		return ${repositoryInstance}.exists(pk);
+		return ${repositoryInstance}.existsById(pk);
 #else
-		return ${repositoryInstance}.exists($keyArgsListGetterOnInstance);
+		return ${repositoryInstance}.existsById($keyArgsListGetterOnInstance);
 #end
 	}
 
