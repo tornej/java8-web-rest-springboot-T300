@@ -13,6 +13,7 @@ $generator.generate($target.entityName ,  "${criteriaClass}.java", "${SRC}/${pac
 #if($haveCriteria)
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -64,9 +65,9 @@ public class $serviceClass implements $serviceInterface {
 #if($compositeKey)
 		// Build the composite key
 		$entityKeyClass key = new $entityKeyClass($keyArgsList);
-		return ${repositoryInstance}.findById(key);
+		return ${repositoryInstance}.findById(key).get();
 #else
-		return ${repositoryInstance}.findById($keyArgsList);
+		return ${repositoryInstance}.findById($keyArgsList).get();
 #end
 	}
 
@@ -75,12 +76,12 @@ public class $serviceClass implements $serviceInterface {
 #if($compositeKey)
 		// Build the composite key
 		$entityKeyClass key = new $entityKeyClass($keyArgsList);
-		if (${repositoryInstance}.findById(key) != null) {
+		if (${repositoryInstance}.findById(key).isPresent()) {
 			${repositoryInstance}.deleteById(key);
 			return true;
 		}
 #else
-		if (${repositoryInstance}.findById($keyArgsList) != null) {
+		if (${repositoryInstance}.findById($keyArgsList).isPresent()) {
 			${repositoryInstance}.deleteById($keyArgsList);
 			return true;
 		}
@@ -103,7 +104,7 @@ public class $serviceClass implements $serviceInterface {
 #keyResolver()
 		final $keyType pk = $keyArgsListGetterOnInstance;
 #end
-		if (${repositoryInstance}.findById(pk) != null) {
+		if (${repositoryInstance}.findById(pk).isPresent()) {
 			${repositoryInstance}.save($entityInstance);
 			return true;
 		}
