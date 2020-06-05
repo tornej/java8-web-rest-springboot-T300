@@ -144,6 +144,12 @@ public class $serviceClass implements $serviceInterface {
 						criteria.get${fieldName}().toLowerCase() + "%"));
 			}
 #end
+#if($field.type == 'Long' || $field.type == 'Integer')
+#set($fieldName = $fn.capitalize($field.name))
+			if (null != criteria.get${fieldName}()) {
+				predicates.add(builder.equal(root.get("$field.name"), criteria.get${fieldName}()));
+			}
+#end
 #end 
 			return andTogether(predicates, builder);
 		}
