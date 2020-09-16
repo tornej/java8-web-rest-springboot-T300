@@ -3,7 +3,7 @@
 #set($database = $databases.getDatabase( $model.databaseId )) 
 ${SHARP} Database configuration  
 spring.datasource.url=$database.jdbcUrl
-spring.datasource.username=$database.user 
+spring.datasource.username=$database.user
 spring.datasource.password=$database.password
 spring.datasource.driver-class-name=$database.driverClass
 spring.jpa.properties.hibernate.dialect = $database.dialect
